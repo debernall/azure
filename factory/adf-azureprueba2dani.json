@@ -1,0 +1,9 @@
+{
+	"name": "adf-azureprueba2dani",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "977f29f6-5f97-4304-9f80-b026712b6f80",
+		"tenantId": "379187eb-fa43-4faa-afee-1f91ae72a66d"
+	}
+}
