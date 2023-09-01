@@ -3,11 +3,7 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "sqlserverazuredanieltemplate1",
-			"type": "LinkedServiceReference",
-			"parameters": {
-				"URL_KeyVault": "@dataset().urlKeyVault",
-				"SecretName_KeyVault": "@dataset().secretNameKeyVault"
-			}
+			"type": "LinkedServiceReference"
 		},
 		"parameters": {
 			"schema": {
