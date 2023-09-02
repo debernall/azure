@@ -109,7 +109,10 @@
 									"referenceName": "dsAQSTable",
 									"type": "DatasetReference",
 									"parameters": {
-										"tblAQSDestino": "@item().tabla_hub"
+										"tblAQSDestino": {
+											"value": "@item().tabla_hub",
+											"type": "Expression"
+										}
 									}
 								}
 							]
