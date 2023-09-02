@@ -11,10 +11,12 @@
 		},
 		"parameters": {
 			"schema": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "aqs"
 			},
 			"tabla": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "vw_cliente"
 			}
 		},
 		"annotations": [],
