@@ -14,7 +14,7 @@
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
 			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=sql-serverazuredaniel.database.windows.net;initial catalog=sqldb-azuredatabase01;user id=debernal",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEQyNEQwQzRDLTc3RDYtNDFCRi1COEZGLTY0OENDRTM0NEY2NF85MDZhYjcxZi1kOWU3LTRiNDEtYjQyYi1hMDFhNjQ1ZTQ2ZWMiDQp9"
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEQyNEQwQzRDLTc3RDYtNDFCRi1COEZGLTY0OENDRTM0NEY2NF8zYTNiM2MwMS03YWU0LTQ0ZmYtOGUxMi0xMzU5NmQ1NzFhMzciDQp9"
 		}
 	}
 }
