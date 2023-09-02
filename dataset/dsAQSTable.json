@@ -8,7 +8,7 @@
 		"parameters": {
 			"tblAQSDestino": {
 				"type": "string",
-				"defaultValue": "aqs_cliente"
+				"defaultValue": "aqs_grupocorporativo"
 			}
 		},
 		"folder": {
