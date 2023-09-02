@@ -2,7 +2,7 @@
 	"name": "AzureSqlTable2",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "sqlserverazuredanieltemplate1",
+			"referenceName": "sqlDatabase2",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
@@ -10,12 +10,6 @@
 				"type": "string"
 			},
 			"table": {
-				"type": "string"
-			},
-			"urlKeyVault": {
-				"type": "string"
-			},
-			"secretNameKeyVault": {
 				"type": "string"
 			}
 		},
