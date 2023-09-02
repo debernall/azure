@@ -2,7 +2,7 @@
 	"name": "dsAQSTable",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "sqlserverazuredanieltemplate1",
+			"referenceName": "AzureSqlDatabaseRestaurada",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
