@@ -12,11 +12,11 @@
 		"parameters": {
 			"schema": {
 				"type": "string",
-				"defaultValue": "aqs"
+				"defaultValue": "ctrl"
 			},
 			"tabla": {
 				"type": "string",
-				"defaultValue": "vw_cliente"
+				"defaultValue": "dual"
 			}
 		},
 		"annotations": [],
