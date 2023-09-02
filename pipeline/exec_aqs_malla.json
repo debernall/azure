@@ -90,12 +90,8 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "AzureSqlRAWPRO",
-									"type": "DatasetReference",
-									"parameters": {
-										"schema": "aqs",
-										"table": "@replace(item().tabla_hub,'aqs','vw')"
-									}
+									"referenceName": "AzureSqlTable2",
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
