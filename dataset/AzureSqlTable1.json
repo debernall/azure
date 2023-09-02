@@ -3,7 +3,11 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "sqlserverazuredanieltemplate1",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"schema": "ctrl",
+				"tabla": "dual"
+			}
 		},
 		"parameters": {
 			"schema": {
