@@ -7,10 +7,12 @@
 		},
 		"parameters": {
 			"schema": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "aqs"
 			},
 			"table": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "vw_cliente"
 			}
 		},
 		"annotations": [],
