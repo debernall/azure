@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select distinct tabla_hub from ctrl.integracion_hub where productor='AQS'",
+						"sqlReaderQuery": "select distinct tabla_hub from ctrl.integracion_hub where productor='AQS' and tabla_hub='aqs_usuario'",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
