@@ -94,11 +94,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"schema": {
-											"value": "aqs",
+											"value": "hub",
 											"type": "Expression"
 										},
 										"table": {
-											"value": "@replace(item().tabla_hub,'aqs','vw')",
+											"value": "@item().tabla_hub",
 											"type": "Expression"
 										}
 									}
