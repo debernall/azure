@@ -7,12 +7,10 @@
 		},
 		"parameters": {
 			"schema": {
-				"type": "string",
-				"defaultValue": "ctrl"
+				"type": "string"
 			},
 			"tabla": {
-				"type": "string",
-				"defaultValue": "dual"
+				"type": "string"
 			}
 		},
 		"annotations": [],
