@@ -15,7 +15,45 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "Codigo",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "Nombre",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Correo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TipoUsuario",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Telefono",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UsuarioUltimaModificacion",
+				"type": "uniqueidentifier"
+			},
+			{
+				"name": "FechaUltimaModificacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ts_carga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
 		"typeProperties": {
 			"schema": {
 				"value": "hub",
