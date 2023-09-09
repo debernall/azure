@@ -29,6 +29,65 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "@{item().schema1}.@{item().tabla}"
+							},
+							{
+								"name": "Destination",
+								"value": "@{item().schema2}.@{item().tabla}"
+							}
+						],
+						"typeProperties": {
+							"variableName": "table",
+							"value": {
+								"value": "@json('[\n\n    {\n        \"schema1\": \"dbo\",    \n        \"schema2\": \"ejercicio\",        \n        \"tabla\":\"APEInvInvoiceTableTmpStaging\" ,   \n        \"pk_integracion\": \"DEFINITIONGROUP\"\n        },\n\n         \n       \n]')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"schema1": {
+						"type": "string",
+						"defaultValue": "dbo"
+					},
+					"schema2": {
+						"type": "string",
+						"defaultValue": "ejercicio"
+					}
+				},
+				"variables": {
+					"table": {
+						"type": "Array",
+						"defaultValue": [
+							"APEInvInvoiceTableTmpStaging"
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureDatabaseDBO')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
