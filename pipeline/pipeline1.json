@@ -1,0 +1,16 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"parameters": {
+			"schema1": {
+				"type": "string",
+				"defaultValue": "dbo"
+			},
+			"schema2": {
+				"type": "string",
+				"defaultValue": "ext"
+			}
+		},
+		"annotations": []
+	}
+}
