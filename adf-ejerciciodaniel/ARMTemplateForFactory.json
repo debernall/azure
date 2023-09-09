@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"AzureDatabaseETX\""
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"AzureSqlDatabase1\""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-accesodani.vault.azure.net/"
@@ -30,11 +34,11 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureDatabaseDBO",
+					"referenceName": "AzureSqlDatabase1",
 					"type": "LinkedServiceReference",
 					"parameters": {
 						"URL_KeyVault": "https://kv-accesodani.vault.azure.net/",
-						"SecretName_KeyVault": "DatabaseConnectionazuredatabasedani03"
+						"SecretName_KeyVault": "DatabaseConnectionazuredatabase01"
 					}
 				},
 				"annotations": [],
@@ -46,7 +50,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDatabaseDBO')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		},
 		{
@@ -126,6 +130,29 @@
 				"type": "AzureKeyVault",
 				"typeProperties": {
 					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"URL_KeyVault": {
+						"type": "string",
+						"defaultValue": "https://kv-accesodani.vault.azure.net/"
+					},
+					"SecretName_KeyVault": {
+						"type": "string",
+						"defaultValue": "DatabaseConnectionazuredatabase01"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
 				}
 			},
 			"dependsOn": []

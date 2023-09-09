@@ -11,6 +11,9 @@
 		"AzureDatabaseETX_connectionString": {
 			"value": ""
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://kv-accesodani.vault.azure.net/"
 		},
