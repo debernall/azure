@@ -106,7 +106,7 @@
 									"referenceName": "EXT",
 									"type": "DatasetReference",
 									"parameters": {
-										"tablaDestino": {
+										"schema": {
 											"value": "@{item().tabla}",
 											"type": "Expression"
 										}
