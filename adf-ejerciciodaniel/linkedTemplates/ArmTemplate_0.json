@@ -368,7 +368,7 @@
 					},
 					"schema2": {
 						"type": "string",
-						"defaultValue": "finance"
+						"defaultValue": "ext"
 					}
 				},
 				"variables": {
