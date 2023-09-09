@@ -1,0 +1,101 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('table')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "DBO",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "@{item().schema1}.@{item().tabla}"
+					},
+					{
+						"name": "Destination",
+						"value": "@{item().schema2}.@{item().tabla}"
+					}
+				],
+				"typeProperties": {
+					"variableName": "table",
+					"value": {
+						"value": "@json('[\n\n    {\n        \"schema1\": \"dbo\",    \n        \"schema2\": \"ejercicio\",        \n        \"tabla\":\"APEInvInvoiceTableTmpStaging\" ,   \n        \"pk_integracion\": \"DEFINITIONGROUP\"\n        },\n\n         \n       \n]')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"schema1": {
+				"type": "string",
+				"defaultValue": "dbo"
+			},
+			"schema2": {
+				"type": "string",
+				"defaultValue": "ejercicio"
+			}
+		},
+		"variables": {
+			"table": {
+				"type": "Array",
+				"defaultValue": [
+					"APEInvInvoiceTableTmpStaging"
+				]
+			}
+		},
+		"annotations": []
+	}
+}
