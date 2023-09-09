@@ -41,12 +41,32 @@
 						"SecretName_KeyVault": "DatabaseConnectionazuredatabase01"
 					}
 				},
+				"parameters": {
+					"schema": {
+						"type": "string"
+					},
+					"table": {
+						"type": "string"
+					},
+					"urlKeyVault": {
+						"type": "string"
+					},
+					"secretNameKeyVault": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "hub",
-					"table": "aqs_usuario"
+					"schema": {
+						"value": "@dataset().schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().table",
+						"type": "Expression"
+					}
 				}
 			},
 			"dependsOn": [
