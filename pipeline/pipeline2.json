@@ -61,8 +61,14 @@
 									"referenceName": "DBO",
 									"type": "DatasetReference",
 									"parameters": {
-										"schema": "dbo",
-										"table": "UFTProjInvoiceJourStaging"
+										"schema": {
+											"value": "dbo",
+											"type": "Expression"
+										},
+										"table": {
+											"value": "UFTProjInvoiceJourStaging",
+											"type": "Expression"
+										}
 									}
 								}
 							],
@@ -71,11 +77,7 @@
 									"referenceName": "EXT",
 									"type": "DatasetReference",
 									"parameters": {
-										"schema": {
-											"value": "@{item().schema2}",
-											"type": "Expression"
-										},
-										"table": {
+										"tablaDestino": {
 											"value": "@{item().tabla}",
 											"type": "Expression"
 										}
@@ -102,7 +104,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "select * from UFTProjInvoiceJourStaging;",
+							"value": "SELECT * \nFROM INFORMATION_SCHEMA.TABLES \nWHERE TABLE_SCHEMA = 'dbo' \n  AND TABLE_NAME = 'UFTProjInvoiceJourStaging'\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
