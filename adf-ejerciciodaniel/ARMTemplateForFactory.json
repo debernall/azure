@@ -86,6 +86,20 @@
 						"SecretName_KeyVault": "DatabaseConnectionazuredatabaseEXT"
 					}
 				},
+				"parameters": {
+					"schema": {
+						"type": "string"
+					},
+					"table": {
+						"type": "string"
+					},
+					"urlKeyVault": {
+						"type": "string"
+					},
+					"secretNameKeyVault": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
