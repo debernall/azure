@@ -99,7 +99,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "AzureSqlTable2",
+									"referenceName": "EXT",
 									"type": "DatasetReference",
 									"parameters": {
 										"schema": {
@@ -111,7 +111,7 @@
 											"type": "Expression"
 										},
 										"urlKeyVault": "https://kv-accesodani.vault.azure.net/",
-										"secretNameKeyVault": "DatabaseConnectionazuredatabasedani02"
+										"secretNameKeyVault": "DatabaseConnectionazuredatabaseEXT"
 									}
 								}
 							]
