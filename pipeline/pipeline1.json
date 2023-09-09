@@ -109,9 +109,7 @@
 										"table": {
 											"value": "@{item().tabla}",
 											"type": "Expression"
-										},
-										"urlKeyVault": "https://kv-accesodani.vault.azure.net/",
-										"secretNameKeyVault": "DatabaseConnectionazuredatabaseEXT"
+										}
 									}
 								}
 							]

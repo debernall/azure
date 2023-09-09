@@ -3,23 +3,13 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDatabaseETX",
-			"type": "LinkedServiceReference",
-			"parameters": {
-				"URL_KeyVault": "@dataset().urlKeyVault",
-				"SecretName_KeyVault": "@dataset().secretNameKeyVault"
-			}
+			"type": "LinkedServiceReference"
 		},
 		"parameters": {
 			"schema": {
 				"type": "string"
 			},
 			"table": {
-				"type": "string"
-			},
-			"urlKeyVault": {
-				"type": "string"
-			},
-			"secretNameKeyVault": {
 				"type": "string"
 			}
 		},

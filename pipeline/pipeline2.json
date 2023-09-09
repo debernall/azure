@@ -94,7 +94,10 @@
 							"inputs": [
 								{
 									"referenceName": "DBO",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"schema": "dbo"
+									}
 								}
 							],
 							"outputs": [
@@ -109,9 +112,7 @@
 										"table": {
 											"value": "@{item().tabla}",
 											"type": "Expression"
-										},
-										"urlKeyVault": "https://kv-accesodani.vault.azure.net/",
-										"secretNameKeyVault": "DatabaseConnectionazuredatabaseEXT"
+										}
 									}
 								}
 							]
