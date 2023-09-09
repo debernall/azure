@@ -29,43 +29,17 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "@{item().schema}.@{item().tabla}"
-							},
-							{
-								"name": "Destination",
-								"value": "@{item().schema2}.@{item().tabla}"
-							}
-						],
-						"typeProperties": {
-							"variableName": "table",
-							"value": {
-								"value": "@json('[\n\n    {\n        \"schema\": \"dbo\",    \n        \"schema2\": \"ext\",        \n        \"tabla\":\"UFTProjInvoiceJourStaging\" ,   \n        \"pk_integracion\": \"PK_UFTProjInvoiceJourStaging\"\n        },\n\n         \n       \n]')",
-								"type": "Expression"
-							}
-						}
-					},
-					{
 						"name": "ForEach1",
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "Set variable1",
+								"activity": "Lookup1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -74,10 +48,10 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@variables('table')",
+								"value": "@activity('Copy data1').output.value",
 								"type": "Expression"
 							},
-							"isSequential": true,
+							"isSequential": false,
 							"activities": [
 								{
 									"name": "Copy data1",
@@ -90,16 +64,7 @@
 										"secureOutput": false,
 										"secureInput": false
 									},
-									"userProperties": [
-										{
-											"name": "Source",
-											"value": "@{item().schema}.@{item().tabla}"
-										},
-										{
-											"name": "Destination",
-											"value": "@{item().schema2}.@{item().tabla}"
-										}
-									],
+									"userProperties": [],
 									"typeProperties": {
 										"source": {
 											"type": "AzureSqlSource",
@@ -127,7 +92,16 @@
 										{
 											"referenceName": "DBO",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"schema": {
+													"value": "dbo",
+													"type": "Expression"
+												},
+												"table": {
+													"value": "UFTProjInvoiceJourStaging",
+													"type": "Expression"
+												}
+											}
 										}
 									],
 									"outputs": [
@@ -136,20 +110,50 @@
 											"type": "DatasetReference",
 											"parameters": {
 												"schema": {
-													"value": "@{item().schema2}",
+													"value": "@{item().schema}",
 													"type": "Expression"
 												},
 												"table": {
 													"value": "@{item().tabla}",
 													"type": "Expression"
-												},
-												"urlKeyVault": "https://kv-accesodani.vault.azure.net/",
-												"secretNameKeyVault": "DatabaseConnectionazuredatabaseEXT"
+												}
 											}
 										}
 									]
 								}
 							]
+						}
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "select * from UFTProjInvoiceJourStaging",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DBO",
+								"type": "DatasetReference",
+								"parameters": {
+									"schema": "dbo",
+									"table": "UFTProjInvoiceJourStaging"
+								}
+							}
 						}
 					}
 				],
@@ -192,12 +196,26 @@
 					"referenceName": "AzureSqlDatabase1",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"schema": {
+						"type": "string"
+					},
+					"table": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": "dbo",
-					"table": "UFTProjInvoiceJourStaging"
+					"schema": {
+						"value": "@dataset().schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().table",
+						"type": "Expression"
+					}
 				}
 			},
 			"dependsOn": [
@@ -211,23 +229,13 @@
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "AzureDatabaseETX",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"URL_KeyVault": "@dataset().urlKeyVault",
-						"SecretName_KeyVault": "@dataset().secretNameKeyVault"
-					}
+					"type": "LinkedServiceReference"
 				},
 				"parameters": {
 					"schema": {
 						"type": "string"
 					},
 					"table": {
-						"type": "string"
-					},
-					"urlKeyVault": {
-						"type": "string"
-					},
-					"secretNameKeyVault": {
 						"type": "string"
 					}
 				},
@@ -277,16 +285,6 @@
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"parameters": {
-					"URL_KeyVault": {
-						"type": "string",
-						"defaultValue": "https://kv-accesodani.vault.azure.net/"
-					},
-					"SecretName_KeyVault": {
-						"type": "string",
-						"defaultValue": "DatabaseConnectionazuredatabaseEXT"
-					}
-				},
 				"annotations": [],
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
@@ -320,182 +318,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DBO2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "APEInvInvoiceTableTmpStaging"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "@{item().schema}.@{item().tabla}"
-							},
-							{
-								"name": "Destination",
-								"value": "@{item().schema2}.@{item().tabla}"
-							}
-						],
-						"typeProperties": {
-							"variableName": "table",
-							"value": {
-								"value": "@json('[\n\n    {\n        \"schema\": \"dbo\",    \n        \"schema2\": \"ext\",        \n        \"tabla\":\"APEInvInvoiceTableTmpStaging\" ,   \n        \"pk_integracion\": \"DEFINITIONGROUP\"\n        },\n\n         \n       \n]')",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Set variable1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@variables('table')",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [
-										{
-											"name": "Source",
-											"value": "@{item().schema}.@{item().tabla}"
-										},
-										{
-											"name": "Destination",
-											"value": "@{item().schema2}.@{item().tabla}"
-										}
-									],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false,
-											"tableOption": "autoCreate",
-											"disableMetricsCollection": false
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "DBO",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "EXT",
-											"type": "DatasetReference",
-											"parameters": {
-												"schema": {
-													"value": "@{item().schema2}",
-													"type": "Expression"
-												},
-												"table": {
-													"value": "@{item().tabla}",
-													"type": "Expression"
-												},
-												"urlKeyVault": "https://kv-accesodani.vault.azure.net/",
-												"secretNameKeyVault": "DatabaseConnectionazuredatabaseEXT"
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"schema": {
-						"type": "string",
-						"defaultValue": "dbo"
-					},
-					"schema2": {
-						"type": "string",
-						"defaultValue": "ext"
-					}
-				},
-				"variables": {
-					"table": {
-						"type": "Array",
-						"defaultValue": [
-							"APEInvInvoiceTableTmpStaging"
-						]
-					}
-				},
-				"annotations": [],
-				"lastPublishTime": "2023-08-30T02:16:57Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DBO')]",
-				"[concat(variables('factoryId'), '/datasets/EXT')]"
-			]
 		}
 	]
 }
