@@ -3,19 +3,7 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase1",
-			"type": "LinkedServiceReference",
-			"parameters": {
-				"URL_KeyVault": "https://kv-accesodani.vault.azure.net/",
-				"SecretName_KeyVault": "DatabaseConnectionazuredatabase01"
-			}
-		},
-		"parameters": {
-			"urlKeyVault": {
-				"type": "string"
-			},
-			"secretNameKeyVault": {
-				"type": "string"
-			}
+			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",

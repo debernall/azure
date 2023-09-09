@@ -93,7 +93,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "AzureSqlTable1",
+									"referenceName": "DBO",
 									"type": "DatasetReference"
 								}
 							],
