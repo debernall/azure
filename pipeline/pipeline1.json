@@ -94,7 +94,11 @@
 							"inputs": [
 								{
 									"referenceName": "DBO",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"schema": "dbo",
+										"table": "UFTProjInvoiceJourStaging"
+									}
 								}
 							],
 							"outputs": [
