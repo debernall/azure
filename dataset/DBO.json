@@ -1,0 +1,21 @@
+{
+	"name": "DBO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDatabaseDBO",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"URL_KeyVault": "https://kv-accesodani.vault.azure.net/",
+				"SecretName_KeyVault": "DatabaseConnectionazuredatabasedani03"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "hub",
+			"table": "aqs_usuario"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

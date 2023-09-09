@@ -1,0 +1,17 @@
+{
+	"name": "EXT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDatabaseETX",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"URL_KeyVault": "https://kv-accesodani.vault.azure.net/",
+				"SecretName_KeyVault": "DatabaseConnectionazuredatabaseEXT"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
