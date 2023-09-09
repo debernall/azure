@@ -1,0 +1,134 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "adf-ejerciciodaniel"
+		},
+		"AzureDatabaseDBO_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"AzureDatabaseDBO\""
+		},
+		"AzureDatabaseETX_connectionString": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"connectionString\"de \"AzureDatabaseETX\""
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kv-accesodani.vault.azure.net/"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DBO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDatabaseDBO",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"URL_KeyVault": "https://kv-accesodani.vault.azure.net/",
+						"SecretName_KeyVault": "DatabaseConnectionazuredatabasedani03"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "hub",
+					"table": "aqs_usuario"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabaseDBO')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EXT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDatabaseETX",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"URL_KeyVault": "https://kv-accesodani.vault.azure.net/",
+						"SecretName_KeyVault": "DatabaseConnectionazuredatabaseEXT"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabaseETX')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabaseDBO')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"URL_KeyVault": {
+						"type": "string",
+						"defaultValue": "https://kv-accesodani.vault.azure.net/"
+					},
+					"SecretName_KeyVault": {
+						"type": "string",
+						"defaultValue": "DatabaseConnectionazuredatabasedani03"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureDatabaseDBO_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabaseETX')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"URL_KeyVault": {
+						"type": "string",
+						"defaultValue": "https://kv-accesodani.vault.azure.net/"
+					},
+					"SecretName_KeyVault": {
+						"type": "string",
+						"defaultValue": "DatabaseConnectionazuredatabaseEXT"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureDatabaseETX_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
