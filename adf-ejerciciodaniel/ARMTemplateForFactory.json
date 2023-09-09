@@ -45,7 +45,7 @@
 						"userProperties": [
 							{
 								"name": "Source",
-								"value": "@{item().schema1}.@{item().tabla}"
+								"value": "@{item().schema}.@{item().tabla}"
 							},
 							{
 								"name": "Destination",
@@ -55,9 +55,101 @@
 						"typeProperties": {
 							"variableName": "table",
 							"value": {
-								"value": "@json('[\n\n    {\n        \"schema1\": \"dbo\",    \n        \"schema2\": \"ejercicio\",        \n        \"tabla\":\"APEInvInvoiceTableTmpStaging\" ,   \n        \"pk_integracion\": \"DEFINITIONGROUP\"\n        },\n\n         \n       \n]')",
+								"value": "@json('[\n\n    {\n        \"schema\": \"dbo\",    \n        \"schema2\": \"finance\",        \n        \"tabla\":\"UFTProjInvoiceJourStaging\" ,   \n        \"pk_integracion\": \"PK_UFTProjInvoiceJourStaging\"\n        },\n\n         \n       \n]')",
 								"type": "Expression"
 							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('table')",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "@{item().schema}.@{item().tabla}"
+										},
+										{
+											"name": "Destination",
+											"value": "@{item().schema2}.@{item().tabla}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "AzureSqlTable1",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "AzureSqlTable2",
+											"type": "DatasetReference",
+											"parameters": {
+												"schema": {
+													"value": "@{item().schema2}",
+													"type": "Expression"
+												},
+												"table": {
+													"value": "@{item().tabla}",
+													"type": "Expression"
+												},
+												"urlKeyVault": "https://kv-accesodani.vault.azure.net/",
+												"secretNameKeyVault": "DatabaseConnectionazuredatabasedani02"
+											}
+										}
+									]
+								}
+							]
 						}
 					}
 				],
@@ -66,26 +158,96 @@
 					"cancelAfter": {}
 				},
 				"parameters": {
-					"schema1": {
+					"schema": {
 						"type": "string",
 						"defaultValue": "dbo"
 					},
 					"schema2": {
 						"type": "string",
-						"defaultValue": "ejercicio"
+						"defaultValue": "finance"
 					}
 				},
 				"variables": {
 					"table": {
 						"type": "Array",
 						"defaultValue": [
-							"APEInvInvoiceTableTmpStaging"
+							"UFTProjInvoiceJourStaging"
 						]
 					}
 				},
-				"annotations": []
+				"annotations": [],
+				"lastPublishTime": "2023-08-30T02:16:57Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "UFTProjInvoiceJourStaging"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDatabaseETX",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"URL_KeyVault": "@dataset().urlKeyVault",
+						"SecretName_KeyVault": "@dataset().secretNameKeyVault"
+					}
+				},
+				"parameters": {
+					"schema": {
+						"type": "string"
+					},
+					"table": {
+						"type": "string"
+					},
+					"urlKeyVault": {
+						"type": "string"
+					},
+					"secretNameKeyVault": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabaseETX')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DBO')]",
