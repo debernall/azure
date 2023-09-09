@@ -68,6 +68,10 @@
 									"typeProperties": {
 										"source": {
 											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "select * from UFTProjInvoiceJourStaging",
+												"type": "Expression"
+											},
 											"queryTimeout": "02:00:00",
 											"partitionOption": "None"
 										},
@@ -110,7 +114,7 @@
 											"type": "DatasetReference",
 											"parameters": {
 												"schema": {
-													"value": "@{item().schema}",
+													"value": "@{item().schema2}",
 													"type": "Expression"
 												},
 												"table": {
