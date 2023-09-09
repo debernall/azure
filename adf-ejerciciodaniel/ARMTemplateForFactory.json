@@ -101,16 +101,16 @@
 					}
 				},
 				"parameters": {
-					"schema": {
-						"type": "string"
-					},
-					"table": {
-						"type": "string"
-					},
 					"urlKeyVault": {
 						"type": "string"
 					},
 					"secretNameKeyVault": {
+						"type": "string"
+					},
+					"schema": {
+						"type": "string"
+					},
+					"table": {
 						"type": "string"
 					}
 				},
